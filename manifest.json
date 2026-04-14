@@ -1,0 +1,31 @@
+{
+  "format_version": 2,
+  "header": {
+    "description": "by WIhee",
+    "name": "GrimAC",
+    "uuid": "a8e8f9b1-2c3d-4e5f-6a7b-8c9d0e1f2a3b",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 21, 50]
+  },
+  "modules": [
+    {
+      "description": "My First ",
+      "type": "data",
+      "uuid": "b9f9e0c1-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+      "version": [1, 0, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "c8d0e1f2-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+      "entry": "scripts/main.js",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "1.17.0-beta"
+    }
+  ]
+}

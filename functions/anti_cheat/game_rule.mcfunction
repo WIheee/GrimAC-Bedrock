@@ -1,0 +1,4 @@
+gamerule keepinventory true
+gamerule dofiretick true
+gamerule mobgriefing false
+gamerule playerssleepingpercentage 1
