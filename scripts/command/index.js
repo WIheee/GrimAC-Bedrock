@@ -1,3 +1,4 @@
+// 如果想禁用某一样功能就在他的前面加"//",正常使用请不要修改这些内容除非你知道你在做什么
 // home
 import "./home/sethome.js"
 import "./home/home.js"
@@ -25,3 +26,7 @@ import "./tpa/tpa_list.js"
 
 // rtp
 import "./rtp/rtp.js"
+
+// spawn
+import "./spawn/spawn.js"
+import "./spawn/setspawn.js"
