@@ -14,3 +14,11 @@ import "./back/back.js"
 
 // help
 import "./help/help.js"
+
+// tpa
+import "./tpa/tpa.js"
+import "./tpa/tpa_yes.js"
+import "./tpa/tpa_no.js"
+import "./tpa/tpa_block.js"
+import "./tpa/tpa_unblock.js"
+import "./tpa/tpa_list.js"

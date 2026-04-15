@@ -4,9 +4,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
     const message = event.message
     
-    if (message !== "list") return
-    
-
+    if (message !== "pw list") return
     event.cancel = true
     
     system.run(() => {
@@ -14,7 +12,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
         const names = Object.keys(points)
         
         if (names.length === 0) {
-            player.sendMessage("§7[§bGrimAC§7] §b你还没有保存任何传送点,输入 §eset 名称 §b来创建")
+            player.sendMessage("§7[§bGrimAC§7] §b你还没有保存任何传送点，输入 §epw set 名称 §b来创建")
             return
         }
         
@@ -27,6 +25,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
             player.sendMessage(`§e  ${name} §7- ${dimName} (${p.x.toFixed(0)}, ${p.y.toFixed(0)}, ${p.z.toFixed(0)})`)
         }
         
-        player.sendMessage("§7使用 §ego 名称 §7传送，§edel 名称 §7删除")
+        player.sendMessage("§7使用 §epw go 名称 §7传送，§epw del 名称 §7删除")
     })
 })
