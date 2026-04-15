@@ -5,7 +5,8 @@ const COOLDOWN = 5000 // 5秒，防止战斗时逃跑
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
-    const message = event.message
+    const rawMessage = event.message
+    const message = rawMessage.toLowerCase()
     
     if (message !== "spawn" && message !== "#spawn") return
     event.cancel = true

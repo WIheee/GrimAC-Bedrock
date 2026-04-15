@@ -31,3 +31,6 @@ import "./teleport/rtp/rtp.js"
 // spawn
 import "./teleport/spawn/spawn.js"
 import "./admin/spawn/setspawn.js"
+
+// test
+import "./test/test.js"

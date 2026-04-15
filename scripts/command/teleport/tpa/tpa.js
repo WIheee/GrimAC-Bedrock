@@ -2,13 +2,14 @@ import { world, system } from "@minecraft/server"
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
-    const message = event.message
+    const rawMessage = event.message
+    const message = rawMessage.toLowerCase()
     
     if (!message.startsWith("tpa ")) return
     event.cancel = true
     
-    const args = message.slice(4).trim().split(" ")
-    if (args[0] === "yes" || args[0] === "no") return
+    const args = rawMessage.slice(4).trim().split(" ")
+    if (args[0].toLowerCase() === "yes" || args[0].toLowerCase() === "no") return
     
     const targetName = args[0]
     

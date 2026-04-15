@@ -2,7 +2,8 @@ import { world, system } from "@minecraft/server"
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
-    const message = event.message
+    const rawMessage = event.message
+    const message = rawMessage.toLowerCase()
     
     if (message !== "pw list") return
     event.cancel = true

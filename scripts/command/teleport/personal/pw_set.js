@@ -2,11 +2,13 @@ import { world, system } from "@minecraft/server"
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
-    const message = event.message
+    const rawMessage = event.message
+    const message = rawMessage.toLowerCase()
     
     if (!message.startsWith("pw set ")) return
     event.cancel = true
-    const name = message.slice(7).trim()
+    
+    const name = rawMessage.slice(7).trim()
     
     if (name.length === 0) {
         system.run(() => player.sendMessage("§7[§bGrimAC§7] §b请输入传送点名称，例如: §epw set 矿洞"))

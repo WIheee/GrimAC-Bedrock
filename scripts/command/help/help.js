@@ -1,15 +1,16 @@
 import { world, system } from "@minecraft/server"
 
 world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const message = event.message
-    
+    const player = event.sender                     // ← 必须保留
+    const rawMessage = event.message   
+    const message = rawMessage.toLowerCase()
+        
     if (message !== "help" && message !== "#help" && 
         !message.startsWith("help ") && !message.startsWith("#help ")) return
     event.cancel = true
     
     system.run(() => {
-        const args = message.split(" ")
+        const args = rawMessage.split(" ")          // ← 用 rawMessage
         
         // 主帮助页面
         if (args.length === 1) {
@@ -22,7 +23,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
             return
         }
         
-        const category = args[1]
+        const category = args[1].toLowerCase()      // ← 分类名转小写匹配
         
         // 传送分类
         if (category === "tp") {
