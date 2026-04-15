@@ -22,3 +22,6 @@ import "./tpa/tpa_no.js"
 import "./tpa/tpa_block.js"
 import "./tpa/tpa_unblock.js"
 import "./tpa/tpa_list.js"
+
+// rtp
+import "./rtp/rtp.js"

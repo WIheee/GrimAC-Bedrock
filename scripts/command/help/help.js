@@ -22,6 +22,7 @@ world.beforeEvents.chatSend.subscribe((event) => {
         player.sendMessage("§e  tpa 拉黑 <玩家名> §7- 拉黑玩家")
         player.sendMessage("§e  tpa 解除拉黑 <玩家名> §7- 解除拉黑玩家")
         player.sendMessage("§e  tpa list §7- 查看黑名单")
+        player.sendMessage("§e  rtp §7- 随机传送到野外")
         player.sendMessage("§e  help §7- 显示此帮助")
         player.sendMessage("§7[§bGrimAC§7] §b==================")
     })
