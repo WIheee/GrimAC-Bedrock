@@ -2,11 +2,11 @@
 import "./home/sethome.js"
 import "./home/home.js"
 
-// warp
-import "./warp/set.js"
-import "./warp/go.js"
-import "./warp/list.js"
-import "./warp/del.js"
+// personal
+import "./personal/pw_set.js"
+import "./personal/pw_go.js"
+import "./personal/pw_list.js"
+import "./personal/pw_del.js"
 
 // back
 import "./back/death_listener.js"
