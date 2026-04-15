@@ -1,32 +1,33 @@
 // 如果想禁用某一样功能就在他的前面加"//",正常使用请不要修改这些内容除非你知道你在做什么
+// 示例"// import "xxx""这样就是禁用一个功能或者你直接删除整段
 // home
-import "./home/sethome.js"
-import "./home/home.js"
+import "./teleport/home/sethome.js"
+import "./teleport/home/home.js"
 
 // personal
-import "./personal/pw_set.js"
-import "./personal/pw_go.js"
-import "./personal/pw_list.js"
-import "./personal/pw_del.js"
+import "./teleport/personal/pw_set.js"
+import "./teleport/personal/pw_go.js"
+import "./teleport/personal/pw_list.js"
+import "./teleport/personal/pw_del.js"
 
 // back
-import "./back/death_listener.js"
-import "./back/back.js"
+import "./teleport/back/death_listener.js"
+import "./teleport/back/back.js"
 
 // help
 import "./help/help.js"
 
 // tpa
-import "./tpa/tpa.js"
-import "./tpa/tpa_yes.js"
-import "./tpa/tpa_no.js"
-import "./tpa/tpa_block.js"
-import "./tpa/tpa_unblock.js"
-import "./tpa/tpa_list.js"
+import "./teleport/tpa/tpa.js"
+import "./teleport/tpa/tpa_yes.js"
+import "./teleport/tpa/tpa_no.js"
+import "./teleport/tpa/tpa_block.js"
+import "./teleport/tpa/tpa_unblock.js"
+import "./teleport/tpa/tpa_list.js"
 
 // rtp
-import "./rtp/rtp.js"
+import "./teleport/rtp/rtp.js"
 
 // spawn
-import "./spawn/spawn.js"
-import "./spawn/setspawn.js"
+import "./teleport/spawn/spawn.js"
+import "./admin/spawn/setspawn.js"
