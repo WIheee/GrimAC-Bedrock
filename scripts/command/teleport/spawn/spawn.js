@@ -1,7 +1,7 @@
 import { world, system } from "@minecraft/server"
 
 // 冷却时间（毫秒）
-const COOLDOWN = 5000 // 5秒，防止战斗时逃跑
+const COOLDOWN = 0 // 0S
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender

@@ -1,6 +1,8 @@
 import { world, system } from "@minecraft/server"
 // 导入所有命令
-import "./command/index.js"
+import "./command/command_index.js"
+// 导入反作弊
+import "./anticheat/anticheat_index.js"
 
 // 心跳包
 let number = 0
