@@ -1,8 +1,8 @@
 import { world, system } from "@minecraft/server"
 
 world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender  // ← 必须补上
-    const rawMessage = event.message   
+    const player = event.sender
+    const rawMessage = event.message
     const message = rawMessage.toLowerCase()
     
     if (message !== "tpa yes") return

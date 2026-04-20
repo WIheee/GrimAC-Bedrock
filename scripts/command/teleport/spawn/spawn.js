@@ -1,7 +1,6 @@
 import { world, system } from "@minecraft/server"
 
-// 冷却时间（毫秒）
-const COOLDOWN = 0 // 0S
+const COOLDOWN = 0
 
 world.beforeEvents.chatSend.subscribe((event) => {
     const player = event.sender
@@ -12,7 +11,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
     event.cancel = true
     
     system.run(() => {
-        // 读取主城坐标
         const x = world.getDynamicProperty("spawn_x")
         const y = world.getDynamicProperty("spawn_y")
         const z = world.getDynamicProperty("spawn_z")
@@ -23,7 +21,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
             return
         }
         
-        // 检查冷却
         const lastSpawn = player.getDynamicProperty("last_spawn_time") || 0
         const now = Date.now()
         if (now - lastSpawn < COOLDOWN) {
@@ -32,7 +29,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
             return
         }
         
-        // 检查维度
         if (dim !== player.dimension.id) {
             const dimName = dim === "minecraft:overworld" ? "主世界" : 
                            dim === "minecraft:nether" ? "下界" : "末地"
@@ -40,14 +36,12 @@ world.beforeEvents.chatSend.subscribe((event) => {
             return
         }
         
-        // 保存传送前位置（用于 back）
         const oldLoc = player.location
         player.setDynamicProperty("back_x", oldLoc.x)
         player.setDynamicProperty("back_y", oldLoc.y)
         player.setDynamicProperty("back_z", oldLoc.z)
         player.setDynamicProperty("back_dimension", player.dimension.id)
         
-        // 传送
         player.teleport({ x, y, z })
         player.setDynamicProperty("last_spawn_time", now)
         player.sendMessage("§7[§bGrimAC§7] §b已传送回主城")

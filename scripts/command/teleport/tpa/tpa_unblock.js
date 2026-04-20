@@ -18,7 +18,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
     system.run(() => {
         let blockList = JSON.parse(player.getDynamicProperty("tpa_blocklist") || "[]")
         
-        // 查找目标（可能在线也可能离线，存储的是 ID）
         const target = world.getAllPlayers().find(p => p.name === targetName)
         const targetId = target ? target.id : targetName
         

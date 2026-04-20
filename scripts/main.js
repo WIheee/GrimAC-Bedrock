@@ -9,4 +9,4 @@ let number = 0
 system.runInterval(() => {
     world.sendMessage(`§7[§bGrimAC§7] §bGrimAC §aheartbeat packet §i(${number})`)
     number = number + 1
-}, 6000) 
+}, 6000)

@@ -1,5 +1,6 @@
 // 如果想禁用某一样功能就在他的前面加"//",正常使用请不要修改这些内容除非你知道你在做什么
 // 示例"// import "xxx""这样就是禁用一个功能或者你直接删除整段
+
 // home
 import "./teleport/home/sethome.js"
 import "./teleport/home/home.js"

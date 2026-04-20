@@ -42,7 +42,6 @@ world.beforeEvents.chatSend.subscribe((event) => {
         target.setDynamicProperty("tpa_pending_name", player.name)
         
         player.sendMessage(`§7[§bGrimAC§7] §b传送请求已发送给 §e${targetName}§b，等待对方回应`)
-        
         target.sendMessage(`§7[§bGrimAC§7] §e${player.name} §b申请传送到您身边`)
         target.sendMessage(`§7[§bGrimAC§7] §b输入 §etpa yes §b接受，§etpa no §b拒绝`)
     })
