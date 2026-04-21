@@ -1,34 +1,18 @@
-import { world, system } from "@minecraft/server"
+import { onCommandWithArgs, getPlayerJSON, setPlayerJSON, getPlayerLocation, getPlayerDimension, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
-    
-    if (!message.startsWith("pw set ")) return
-    event.cancel = true
-    
-    const name = rawMessage.slice(7).trim()
-    
-    if (name.length === 0) {
-        system.run(() => player.sendMessage("§7[§bGrimAC§7] §b请输入传送点名称，例如: §epw set 矿洞"))
+onCommandWithArgs("pw set ", (player, rawMessage, args) => {
+    const name = args[0]
+    if (!name) {
+        sendMessage(player, "§7[§bGrimAC§7] §b请输入传送点名称，例如: §epw set 矿洞")
         return
     }
     
-    system.run(() => {
-        const loc = player.location
-        const dim = player.dimension.id
-        
-        let points = JSON.parse(player.getDynamicProperty("points") || "{}")
-        
-        points[name] = {
-            x: loc.x,
-            y: loc.y,
-            z: loc.z,
-            dimension: dim
-        }
-        
-        player.setDynamicProperty("points", JSON.stringify(points))
-        player.sendMessage(`§7[§bGrimAC§7] §b传送点 §e"${name}" §b已保存！ §7(${loc.x.toFixed(0)}, ${loc.y.toFixed(0)}, ${loc.z.toFixed(0)})`)
-    })
+    const loc = getPlayerLocation(player)
+    const dim = getPlayerDimension(player)
+    
+    let points = getPlayerJSON(player, "points", {})
+    points[name] = { x: loc.x, y: loc.y, z: loc.z, dimension: dim }
+    setPlayerJSON(player, "points", points)
+    
+    sendMessage(player, `§7[§bGrimAC§7] §b传送点 §e"${name}" §b已保存！ §7(${loc.x.toFixed(0)}, ${loc.y.toFixed(0)}, ${loc.z.toFixed(0)})`)
 })

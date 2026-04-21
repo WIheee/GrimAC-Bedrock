@@ -1,32 +1,23 @@
-import { world, system } from "@minecraft/server"
+import { onCommand, getPlayerData, teleportPlayer, getPlayerDimension, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
+onCommand("back", (player) => {
+    const x = getPlayerData(player, "death_x")
+    const y = getPlayerData(player, "death_y")
+    const z = getPlayerData(player, "death_z")
+    const dim = getPlayerData(player, "death_dimension")
     
-    if (message !== "back" && message !== "#back") return
-    event.cancel = true
+    if (x === undefined) {
+        sendMessage(player, "§7[§bGrimAC§7] §b没有死亡记录")
+        return
+    }
     
-    system.run(() => {
-        const x = player.getDynamicProperty("death_x")
-        const y = player.getDynamicProperty("death_y")
-        const z = player.getDynamicProperty("death_z")
-        const dim = player.getDynamicProperty("death_dimension")
-        
-        if (x === undefined) {
-            player.sendMessage("§7[§bGrimAC§7] §b没有死亡记录")
-            return
-        }
-        
-        if (dim !== player.dimension.id) {
-            const dimName = dim === "minecraft:overworld" ? "主世界" : 
-                           dim === "minecraft:nether" ? "下界" : "末地"
-            player.sendMessage(`§7[§bGrimAC§7] §b死亡点在 §e${dimName} §b，请先切换维度`)
-            return
-        }
-        
-        player.teleport({ x, y, z })
-        player.sendMessage(`§7[§bGrimAC§7] §b已传送回死亡点 §7(${x.toFixed(0)}, ${y.toFixed(0)}, ${z.toFixed(0)})`)
-    })
+    if (dim !== getPlayerDimension(player)) {
+        const dimName = dim === "minecraft:overworld" ? "主世界" : 
+                       dim === "minecraft:nether" ? "下界" : "末地"
+        sendMessage(player, `§7[§bGrimAC§7] §b死亡点在 §e${dimName} §b，请先切换维度`)
+        return
+    }
+    
+    teleportPlayer(player, x, y, z)
+    sendMessage(player, `§7[§bGrimAC§7] §b已传送回死亡点 §7(${x.toFixed(0)}, ${y.toFixed(0)}, ${z.toFixed(0)})`)
 })

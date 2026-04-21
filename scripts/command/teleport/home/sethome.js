@@ -1,21 +1,14 @@
-import { world, system } from "@minecraft/server"
+// scripts/command/teleport/home/sethome.js
+import { onCommand, setPlayerData, getPlayerLocation, getPlayerDimension, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
+onCommand("sethome", (player) => {
+    const loc = getPlayerLocation(player)
+    const dim = getPlayerDimension(player)
     
-    if (message !== "sethome" && message !== "#sethome") return
-    event.cancel = true
+    setPlayerData(player, "home_x", loc.x)
+    setPlayerData(player, "home_y", loc.y)
+    setPlayerData(player, "home_z", loc.z)
+    setPlayerData(player, "home_dimension", dim)
     
-    system.run(() => {
-        const loc = player.location
-        
-        player.setDynamicProperty("home_x", loc.x)
-        player.setDynamicProperty("home_y", loc.y)
-        player.setDynamicProperty("home_z", loc.z)
-        player.setDynamicProperty("home_dimension", player.dimension.id)
-        
-        player.sendMessage(`§7[§bGrimAC§7] §b家已设置,坐标: §e${loc.x.toFixed(1)}, ${loc.y.toFixed(1)}, ${loc.z.toFixed(1)}`)
-    })
+    sendMessage(player, `§7[§bGrimAC§7] §b家已设置,坐标: §e${loc.x.toFixed(1)}, ${loc.y.toFixed(1)}, ${loc.z.toFixed(1)}`)
 })

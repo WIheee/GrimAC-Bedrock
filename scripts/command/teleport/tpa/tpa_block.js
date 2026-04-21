@@ -1,40 +1,30 @@
-import { world, system } from "@minecraft/server"
+import { onCommandWithArgs, getAllPlayers, getPlayerJSON, setPlayerJSON, setPlayerData, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
-    
-    if (!message.startsWith("tpa 拉黑 ")) return
-    event.cancel = true
-    
-    const targetName = rawMessage.slice(6).trim()
-    
+onCommandWithArgs("tpa 拉黑 ", (player, rawMessage, args) => {
+    const targetName = args[0]
     if (!targetName) {
-        system.run(() => player.sendMessage("§7[§bGrimAC§7] §b请输入要拉黑的玩家名"))
+        sendMessage(player, "§7[§bGrimAC§7] §b请输入要拉黑的玩家名")
         return
     }
     
-    system.run(() => {
-        const target = world.getAllPlayers().find(p => p.name === targetName)
-        const targetId = target ? target.id : targetName
-        
-        let blockList = JSON.parse(player.getDynamicProperty("tpa_blocklist") || "[]")
-        
-        if (blockList.includes(targetId)) {
-            player.sendMessage(`§7[§bGrimAC§7] §b玩家 §e${targetName} §b已在黑名单中`)
-            return
-        }
-        
-        blockList.push(targetId)
-        player.setDynamicProperty("tpa_blocklist", JSON.stringify(blockList))
-        
-        player.sendMessage(`§7[§bGrimAC§7] §b玩家 §e${targetName} §b已被拉黑`)
-        
-        const pendingId = player.getDynamicProperty("tpa_pending_from")
-        if (pendingId === targetId) {
-            player.setDynamicProperty("tpa_pending_from", undefined)
-            player.setDynamicProperty("tpa_pending_name", undefined)
-        }
-    })
+    const target = getAllPlayers().find(p => p.name === targetName)
+    const targetId = target ? target.id : targetName
+    
+    let blockList = getPlayerJSON(player, "tpa_blocklist", [])
+    
+    if (blockList.includes(targetId)) {
+        sendMessage(player, `§7[§bGrimAC§7] §b玩家 §e${targetName} §b已在黑名单中`)
+        return
+    }
+    
+    blockList.push(targetId)
+    setPlayerJSON(player, "tpa_blocklist", blockList)
+    
+    sendMessage(player, `§7[§bGrimAC§7] §b玩家 §e${targetName} §b已被拉黑`)
+    
+    const pendingId = player.getDynamicProperty("tpa_pending_from")
+    if (pendingId === targetId) {
+        setPlayerData(player, "tpa_pending_from", undefined)
+        setPlayerData(player, "tpa_pending_name", undefined)
+    }
 })

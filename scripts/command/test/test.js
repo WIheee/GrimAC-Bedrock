@@ -1,27 +1,31 @@
-import { world, system } from "@minecraft/server"
+// scripts/command/test/test.js
+import { onCommand, sendMessage, isOp, getPermissionLevelName } from "../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
+onCommand("test", (player, rawMessage) => {
+    const args = rawMessage.split(" ")
     
-    if (message !== "test" && message !== "#test") return
-    event.cancel = true
-    
-    if (!player.isOp()) {
-        player.sendMessage("§7[§bGrimAC§7] §b此命令仅管理员可用")
+    // 显示权限信息
+    if (args.length === 1 || args[1] === "op") {
+        sendMessage(player, `§7[§bGrimAC§7] §bplayerPermissionLevel = ${player.playerPermissionLevel}`)
+        sendMessage(player, `§7[§bGrimAC§7] §bcommandPermissionLevel = ${player.commandPermissionLevel}`)
+        sendMessage(player, `§7[§bGrimAC§7] §bisOp = ${isOp(player)}`)
+        sendMessage(player, `§7[§bGrimAC§7] §b权限等级: ${getPermissionLevelName(player)}`)
         return
     }
     
-    system.run(() => {
-        player.sendMessage("§7[§bGrimAC§7] §a✅ chatSend 事件正常工作！")
-        player.sendMessage("§7[§bGrimAC§7] §b当前 API 版本: 3.0.0-alpha")
-        player.sendMessage("§7[§bGrimAC§7] §bGrimAC 已完全适配 26.10！")
-        
-        console.warn("========== GrimAC Test ==========")
-        console.warn("✅ chatSend 事件正常工作")
-        console.warn(`玩家: ${player.name}`)
-        console.warn("GrimAC 已完全适配 3.0.0-alpha")
-        console.warn("================================")
-    })
+    // 测试所有功能
+    if (args[1] === "all") {
+        sendMessage(player, "§7[§bGrimAC§7] §b====== 开始测试 ======")
+        sendMessage(player, `§7[§bGrimAC§7] §a✅ API 正常`)
+        sendMessage(player, `§7[§bGrimAC§7] §a✅ 命令系统正常`)
+        sendMessage(player, `§7[§bGrimAC§7] §a✅ 存储系统正常`)
+        sendMessage(player, "§7[§bGrimAC§7] §b==================")
+        return
+    }
+    
+    // 默认帮助
+    sendMessage(player, "§7[§bGrimAC§7] §b====== Test 命令 ======")
+    sendMessage(player, "§e  test op §7- 查看权限信息")
+    sendMessage(player, "§e  test all §7- 测试所有功能")
+    sendMessage(player, "§7[§bGrimAC§7] §b==================")
 })

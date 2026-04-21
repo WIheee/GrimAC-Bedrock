@@ -1,32 +1,23 @@
-import { world, system } from "@minecraft/server"
+import { onCommand, getPlayerData, teleportPlayer, getPlayerDimension, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
+onCommand("home", (player) => {
+    const x = getPlayerData(player, "home_x")
+    const y = getPlayerData(player, "home_y")
+    const z = getPlayerData(player, "home_z")
+    const dimension = getPlayerData(player, "home_dimension")
     
-    if (message !== "home" && message !== "#home") return
-    event.cancel = true
+    if (x === undefined) {
+        sendMessage(player, "§7[§bGrimAC§7] §b你还没有设置家,输入 §esethome §b设置")
+        return
+    }
     
-    system.run(() => {
-        const x = player.getDynamicProperty("home_x")
-        const y = player.getDynamicProperty("home_y")
-        const z = player.getDynamicProperty("home_z")
-        const dimension = player.getDynamicProperty("home_dimension")
-        
-        if (x === undefined) {
-            player.sendMessage("§7[§bGrimAC§7] §b你还没有设置家,输入 §esethome §b设置")
-            return
-        }
-        
-        if (dimension !== player.dimension.id) {
-            const dimName = dimension === "minecraft:overworld" ? "主世界" : 
-                           dimension === "minecraft:nether" ? "下界" : "末地"
-            player.sendMessage(`§7[§bGrimAC§7] §b你的家在 §e${dimName} §b,请先切换到对应维度`)
-            return
-        }
-        
-        player.teleport({ x, y, z })
-        player.sendMessage(`§7[§bGrimAC§7] §b欢迎回家`)
-    })
+    if (dimension !== getPlayerDimension(player)) {
+        const dimName = dimension === "minecraft:overworld" ? "主世界" : 
+                       dimension === "minecraft:nether" ? "下界" : "末地"
+        sendMessage(player, `§7[§bGrimAC§7] §b你的家在 §e${dimName} §b,请先切换到对应维度`)
+        return
+    }
+    
+    teleportPlayer(player, x, y, z)
+    sendMessage(player, "§7[§bGrimAC§7] §b欢迎回家")
 })

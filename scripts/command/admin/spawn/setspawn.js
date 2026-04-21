@@ -1,27 +1,18 @@
-import { world, system } from "@minecraft/server"
+import { onCommand, setWorldData, getPlayerLocation, getPlayerDimension, isOp, sendMessage } from "../../../grimac-api/index.js"
 
-world.beforeEvents.chatSend.subscribe((event) => {
-    const player = event.sender
-    const rawMessage = event.message
-    const message = rawMessage.toLowerCase()
+onCommand("setspawn", (player) => {
+    if (!isOp(player)) {
+        sendMessage(player, "§7[§bGrimAC§7] §b此命令仅管理员可用")
+        return
+    }
     
-    if (message !== "setspawn" && message !== "#setspawn") return
-    event.cancel = true
+    const loc = getPlayerLocation(player)
+    const dim = getPlayerDimension(player)
     
-    system.run(() => {
-        if (!player.isOp()) {
-            player.sendMessage("§7[§bGrimAC§7] §b此命令仅管理员可用")
-            return
-        }
-        
-        const loc = player.location
-        const dim = player.dimension.id
-        
-        world.setDynamicProperty("spawn_x", loc.x)
-        world.setDynamicProperty("spawn_y", loc.y)
-        world.setDynamicProperty("spawn_z", loc.z)
-        world.setDynamicProperty("spawn_dimension", dim)
-        
-        player.sendMessage(`§7[§bGrimAC§7] §b主城已设置！ §7(${loc.x.toFixed(0)}, ${loc.y.toFixed(0)}, ${loc.z.toFixed(0)})`)
-    })
+    setWorldData("spawn_x", loc.x)
+    setWorldData("spawn_y", loc.y)
+    setWorldData("spawn_z", loc.z)
+    setWorldData("spawn_dimension", dim)
+    
+    sendMessage(player, `§7[§bGrimAC§7] §b主城已设置！ §7(${loc.x.toFixed(0)}, ${loc.y.toFixed(0)}, ${loc.z.toFixed(0)})`)
 })
